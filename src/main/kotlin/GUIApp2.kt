@@ -6,6 +6,7 @@ import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
+import java.text.SimpleDateFormat
 
 class GUIApp2 : Application() {
     override fun start(stage: Stage) {
@@ -127,7 +128,6 @@ class GUIApp2 : Application() {
                             fabField,
                             productoField,
                             cantField,
-                            importeField,
                             executeButton,
                             output
                         )
@@ -140,7 +140,6 @@ class GUIApp2 : Application() {
                             fabField,
                             productoField,
                             cantField,
-                            importeField,
                             executeButton,
                             output
                         )
@@ -219,34 +218,39 @@ class GUIApp2 : Application() {
                 when (operationSelector.value) {
                     "Insertar" -> {
                         when (tableSelector.value) {
-                            "Clientes" -> Services.insertClient(
+                            "Clientes" -> insertClient(
                                 num_clie.text.toInt(),
                                 empresaField.text,
                                 repClieField.text.toInt(),
                                 limiteCreditoField.text.toInt()
                             )
 
-                            "Oficinas" -> Services.insertOficina(
+                            "Oficinas" -> insertOficina(
                                 oficina.text.toInt(),
                                 ciudadField.text,
                                 regionField.text,
-                                dirField.text,
+                                dirField.text.toInt(),
                                 objetivoField.text.toDouble(),
-                                ventasField.text.toDouble()
+                                ventasField.text.toDouble(),
+                                output
                             )
 
-                            "Pedidos" -> Services.insertPedido(
-                                id_pedido.text.toInt(),
-                                fechaPedidoField.text,
-                                clieField.text.toInt(),
-                                repField.text.toInt(),
-                                fabField.text,
-                                productoField.text,
-                                cantField.text.toInt(),
-                                importeField.text.toDouble()
-                            )
+                            "Pedidos" -> {
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                                val fechaPedido = dateFormat.parse(fechaPedidoField.text)
+                                insertPedido(
+                                    id_pedido.text.toInt(),
+                                    fechaPedido,
+                                    clieField.text.toInt(),
+                                    repField.text.toInt(),
+                                    fabField.text,
+                                    productoField.text,
+                                    cantField.text.toInt(),
+                                    output
+                                )
+                            }
 
-                            "Productos" -> Services.insertProducto(
+                            "Productos" -> insertProducto(
                                 id_fab.text.toInt(),
                                 id_prod.text.toInt(),
                                 descripcionField.text,
@@ -254,7 +258,7 @@ class GUIApp2 : Application() {
                                 existenciasField.text.toInt()
                             )
 
-                            "Repventas" -> Services.insertRepventas(
+                            "Repventas" -> insertRepventas(
                                 num_empleado.text.toInt(),
                                 nameField.text,
                                 edadField.text.toInt(),
@@ -271,34 +275,38 @@ class GUIApp2 : Application() {
 
                     "Actualizar" -> {
                         when (tableSelector.value) {
-                            "Clientes" -> Services.updateClient(
+                            "Clientes" -> updateClient(
                                 num_clie.text.toInt(),
                                 nameField.text,
                                 repClieField.text.toInt(),
                                 limiteCreditoField.text.toInt()
                             )
 
-                            "Oficinas" -> Services.updateOficina(
+                            "Oficinas" -> updateOficina(
                                 oficina.text.toInt(),
                                 ciudadField.text,
                                 regionField.text,
-                                dirField.text,
+                                dirField.text.toInt(),
                                 objetivoField.text.toDouble(),
                                 ventasField.text.toDouble()
                             )
 
-                            "Pedidos" -> Services.updatePedido(
-                                id_pedido.text.toInt(),
-                                fechaPedidoField.text,
-                                clieField.text.toInt(),
-                                repField.text.toInt(),
-                                fabField.text,
-                                productoField.text,
-                                cantField.text.toInt(),
-                                importeField.text.toDouble()
-                            )
+                            "Pedidos" -> {
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                                val fechaPedido = dateFormat.parse(fechaPedidoField.text)
+                                updatePedido(
+                                    id_pedido.text.toInt(),
+                                    fechaPedido,
+                                    clieField.text.toInt(),
+                                    repField.text.toInt(),
+                                    fabField.text,
+                                    productoField.text,
+                                    cantField.text.toInt(),
+                                    importeField.text.toDouble()
+                                )
+                            }
 
-                            "Productos" -> Services.updateProducto(
+                            "Productos" -> updateProducto(
                                 id_fab.text.toInt(),
                                 id_prod.text.toInt(),
                                 descripcionField.text,
@@ -306,7 +314,7 @@ class GUIApp2 : Application() {
                                 existenciasField.text.toInt()
                             )
 
-                            "Repventas" -> Services.updateRepventas(
+                            "Repventas" -> updateRepventas(
                                 num_empleado.text.toInt(),
                                 nameField.text,
                                 edadField.text.toInt(),
@@ -323,22 +331,22 @@ class GUIApp2 : Application() {
 
                     "Eliminar" -> {
                         when (tableSelector.value) {
-                            "Clientes" -> Services.deleteClient(num_clie.text.toInt())
-                            "Oficinas" -> Services.deleteOficina(oficina.text.toInt())
-                            "Pedidos" -> Services.deletePedido(id_pedido.text.toInt())
-                            "Productos" -> Services.deleteProducto(id_fab.text.toInt(), id_prod.text.toInt())
-                            "Repventas" -> Services.deleteRepventas(num_empleado.text.toInt())
+                            "Clientes" -> deleteClient(num_clie.text.toInt())
+                            "Oficinas" -> deleteOficina(oficina.text.toInt())
+                            "Pedidos" -> deletePedido(id_pedido.text.toInt())
+                            "Productos" -> deleteProducto(id_fab.text.toInt(), id_prod.text.toInt())
+                            "Repventas" -> deleteRepventas(num_empleado.text.toInt())
                         }
                         output.text = "✅ Eliminado correctamente en ${tableSelector.value}."
                     }
 
                     "Listar" -> {
                         when (tableSelector.value) {
-                            "Clientes" -> Services.listClients()
-                            "Oficinas" -> Services.listOficinas()
-                            "Pedidos" -> Services.listPedidos()
-                            "Productos" -> Services.listProductos()
-                            "Repventas" -> Services.listRepventas()
+                            "Clientes" -> listClients()
+                            "Oficinas" -> listOficinas()
+                            "Pedidos" -> listPedidos()
+                            "Productos" -> listProductos()
+                            "Repventas" -> listRepventas()
                         }
                         output.text = "📋 Listado de ${tableSelector.value}."
                     }
