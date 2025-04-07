@@ -23,7 +23,16 @@ fun listProductos() {
         conn.createStatement().use {
             val rs = it.executeQuery(sql)
             while (rs.next()) {
-                println("Producto #${rs.getInt("id_producto")} - Fabricante: ${rs.getInt("id_fab")} - Descripción: ${rs.getString("descripcion")} - Precio: $${rs.getDouble("precio")} - Existencias: ${rs.getInt("existencias")}")
+                try {
+                    val idFab = rs.getInt("id_fab")
+                    val idProducto = rs.getInt("id_producto")
+                    val descripcion = rs.getString("descripcion")
+                    val precio = rs.getDouble("precio")
+                    val existencias = rs.getInt("existencias")
+                    println("Producto #$idProducto - Fabricante: $idFab - Descripción: $descripcion - Precio: $$precio - Existencias: $existencias")
+                } catch (e: NumberFormatException) {
+                    println("Error: Invalid integer value in the database.")
+                }
             }
         }
     }

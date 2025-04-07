@@ -7,6 +7,7 @@ import javafx.scene.control.*
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
 import java.text.SimpleDateFormat
+import java.util.Date
 
 class GUIApp2 : Application() {
     override fun start(stage: Stage) {
@@ -218,113 +219,117 @@ class GUIApp2 : Application() {
                 when (operationSelector.value) {
                     "Insertar" -> {
                         when (tableSelector.value) {
-                            "Clientes" -> insertClient(
-                                num_clie.text.toInt(),
-                                empresaField.text,
-                                repClieField.text.toInt(),
-                                limiteCreditoField.text.toInt()
-                            )
-
-                            "Oficinas" -> insertOficina(
-                                oficina.text.toInt(),
-                                ciudadField.text,
-                                regionField.text,
-                                dirField.text.toInt(),
-                                objetivoField.text.toDouble(),
-                                ventasField.text.toDouble(),
-                                output
-                            )
-
-                            "Pedidos" -> {
-                                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-                                val fechaPedido = dateFormat.parse(fechaPedidoField.text)
-                                insertPedido(
-                                    id_pedido.text.toInt(),
-                                    fechaPedido,
-                                    clieField.text.toInt(),
-                                    repField.text.toInt(),
-                                    fabField.text,
-                                    productoField.text,
-                                    cantField.text.toInt(),
-                                    output
-                                )
+                            "Clientes" -> {
+                                val numClie = num_clie.text.toInt()
+                                val empresa = empresaField.text
+                                val repClie = repClieField.text.toInt()
+                                val limiteCredito = limiteCreditoField.text.toInt()
+                                insertClient(numClie, empresa, repClie, limiteCredito)
                             }
 
-                            "Productos" -> insertProducto(
-                                id_fab.text.toInt(),
-                                id_prod.text.toInt(),
-                                descripcionField.text,
-                                precioField.text.toDouble(),
-                                existenciasField.text.toInt()
-                            )
+                            "Oficinas" -> {
+                                val oficinaId = oficina.text.toInt()
+                                val ciudad = ciudadField.text
+                                val region = regionField.text
+                                val direccion = dirField.text.toInt()
+                                val objetivo = objetivoField.text.toDouble()
+                                val ventas = ventasField.text.toDouble()
+                                insertOficina(oficinaId, ciudad, region, direccion, objetivo, ventas, output)
+                            }
 
-                            "Repventas" -> insertRepventas(
-                                num_empleado.text.toInt(),
-                                nameField.text,
-                                edadField.text.toInt(),
-                                oficinasRepField.text,
-                                tituloField.text,
-                                contratoField.text,
-                                directorField.text,
-                                cuotaField.text.toDouble(),
-                                ventasField.text.toDouble()
-                            )
+                            "Pedidos" -> {
+                                val idPedido = id_pedido.text.toInt()
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                                val fechaPedido = dateFormat.parse(fechaPedidoField.text)
+                                val clie = clieField.text.toInt()
+                                val rep = repField.text.toInt()
+                                val fab = fabField.text
+                                val producto = productoField.text
+                                val cant = cantField.text.toInt()
+                                insertPedido(idPedido, fechaPedido, clie, rep, fab, producto, cant, output)
+                            }
+
+                            "Productos" -> {
+                                val idFab = id_fab.text.toInt()
+                                val idProd = id_prod.text.toInt()
+                                val descripcion = descripcionField.text
+                                val precio = precioField.text.toDouble()
+                                val existencias = existenciasField.text.toInt()
+                                insertProducto(idFab, idProd, descripcion, precio, existencias)
+                            }
+
+                            "Repventas" -> {
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                                val numEmpleado = num_empleado.text.toInt()
+                                val nombre = nameField.text
+                                val edad = edadField.text.toInt()
+                                val oficinasRep = oficinasRepField.text.toInt()
+                                val titulo = tituloField.text
+                                val contrato = dateFormat.parse(contratoField.text)
+                                val director = directorField.text
+                                val cuota = cuotaField.text.toDouble()
+                                val ventas = ventasField.text.toDouble()
+                                insertRepventas(numEmpleado, nombre, edad, oficinasRep, titulo, contrato, director, cuota, ventas)
+                            }
                         }
                         output.text = "✅ Insertado correctamente en ${tableSelector.value}."
                     }
 
                     "Actualizar" -> {
                         when (tableSelector.value) {
-                            "Clientes" -> updateClient(
-                                num_clie.text.toInt(),
-                                nameField.text,
-                                repClieField.text.toInt(),
-                                limiteCreditoField.text.toInt()
-                            )
-
-                            "Oficinas" -> updateOficina(
-                                oficina.text.toInt(),
-                                ciudadField.text,
-                                regionField.text,
-                                dirField.text.toInt(),
-                                objetivoField.text.toDouble(),
-                                ventasField.text.toDouble()
-                            )
-
-                            "Pedidos" -> {
-                                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-                                val fechaPedido = dateFormat.parse(fechaPedidoField.text)
-                                updatePedido(
-                                    id_pedido.text.toInt(),
-                                    fechaPedido,
-                                    clieField.text.toInt(),
-                                    repField.text.toInt(),
-                                    fabField.text,
-                                    productoField.text,
-                                    cantField.text.toInt(),
-                                    importeField.text.toDouble()
-                                )
+                            "Clientes" -> {
+                                val numClie = num_clie.text.toInt()
+                                val empresa = empresaField.text
+                                val repClie = repClieField.text.toInt()
+                                val limiteCredito = limiteCreditoField.text.toInt()
+                                updateClient(numClie, empresa, repClie, limiteCredito)
                             }
 
-                            "Productos" -> updateProducto(
-                                id_fab.text.toInt(),
-                                id_prod.text.toInt(),
-                                descripcionField.text,
-                                precioField.text.toDouble(),
-                                existenciasField.text.toInt()
-                            )
+                            "Oficinas" -> {
+                                val oficinaId = oficina.text.toInt()
+                                val ciudad = ciudadField.text
+                                val region = regionField.text
+                                val direccion = dirField.text.toInt()
+                                val objetivo = objetivoField.text.toDouble()
+                                val ventas = ventasField.text.toDouble()
+                                updateOficina(oficinaId, ciudad, region, direccion, objetivo, ventas)
+                            }
 
-                            "Repventas" -> updateRepventas(
-                                num_empleado.text.toInt(),
-                                nameField.text,
-                                edadField.text.toInt(),
-                                oficinasRepField.text,
-                                tituloField.text,
-                                contratoField.text,
-                                directorField.text,
-                                cuotaField.text.toDouble(),
-                                ventasField.text.toDouble()
-                            )
+                            "Pedidos" -> {
+                                val idPedido = id_pedido.text.toInt()
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                                val fechaPedido = dateFormat.parse(fechaPedidoField.text)
+                                val clie = clieField.text.toInt()
+                                val rep = repField.text.toInt()
+                                val fab = fabField.text
+                                val producto = productoField.text
+                                val cant = cantField.text.toInt()
+                                val importe = importeField.text.toDouble()
+                                updatePedido(idPedido, fechaPedido, clie, rep, fab, producto, cant, importe)
+                            }
+
+                            "Productos" -> {
+                                val idFab = id_fab.text.toInt()
+                                val idProd = id_prod.text.toInt()
+                                val descripcion = descripcionField.text
+                                val precio = precioField.text.toDouble()
+                                val existencias = existenciasField.text.toInt()
+                                updateProducto(idFab, idProd, descripcion, precio, existencias)
+                            }
+
+                            "Repventas" -> {
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                                val numEmpleado = num_empleado.text.toInt()
+                                val nombre = nameField.text
+                                val edad = edadField.text.toInt()
+                                val oficinasRep = oficinasRepField.text.toInt()
+                                val titulo = tituloField.text
+                                val contrato = dateFormat.parse(contratoField.text)
+                                val director = directorField.text
+                                val cuota = cuotaField.text.toDouble()
+                                val ventas = ventasField.text.toDouble()
+                                updateRepventas(numEmpleado, nombre, edad, oficinasRep, titulo, contrato, director, cuota, ventas)
+                            }
                         }
                         output.text = "✅ Actualizado correctamente en ${tableSelector.value}."
                     }
@@ -352,6 +357,7 @@ class GUIApp2 : Application() {
                     }
                 }
             } catch (e: NumberFormatException) {
+                output.style = "-fx-text-fill: red;"
                 output.text = "❌ Error: Entrada no válida. Por favor, ingrese valores numéricos donde corresponda."
             }
         }
